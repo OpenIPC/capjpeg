@@ -30,7 +30,6 @@
 
 #define SENSOR_NAME             "gc2083"
 #define SENSOR_CUBS_TYPE        TX_SENSOR_CONTROL_INTERFACE_I2C
-//#define SENSOR_I2C_ADDR         0x6e
 #define SENSOR_I2C_ADDR         0x37
 #define SENSOR_WIDTH            1920
 #define SENSOR_HEIGHT           1080
@@ -239,7 +238,7 @@ int sample_system_init()
 {
     int ret = 0;
 
-   //IMP_OSD_SetPoolSize(512*1024);
+    IMP_OSD_SetPoolSize(512*1024);
 
     memset(&sensor_info, 0, sizeof(IMPSensorInfo));
     memcpy(sensor_info.name, SENSOR_NAME, sizeof(SENSOR_NAME));
@@ -258,53 +257,6 @@ printf("Step 1.1\n");
     }
 
 printf("Step 1.2\n");
-
-#if 0
-
-/**
-* 摄像头控制总线类型是I2C时，需要配置的参数结构体
-*/
-typedef struct {
-    char type[20];      /**< I2C设备名字，必须与摄像头驱动中struct i2c_device_id中name变量一致 */
-    int addr;       /**< I2C地址 */
-    int i2c_adapter_id; /**< I2C控制器 */
-} IMPI2CInfo;
-/**
-* 摄像头控制总线类型是SPI时，需要配置的参数结构体
-*/
-typedef struct {
-    char modalias[32];  /**< SPI设备名字，必须与摄像头驱动中struct spi_device_id中name变量一致 */
-    int bus_num;        /**< SPI总线地址 */
-} IMPSPIInfo;
-
-typedef struct {
-    char name[32];                  /**< 摄像头名字 */
-    IMPSensorControlBusType cbus_type;  /**< 摄像头控制总线类型 */
-    union {
-        IMPI2CInfo i2c;             /**< I2C总线信息 */
-        IMPSPIInfo spi;             /**< SPI总线信息 */
-    };
-    unsigned short rst_gpio;        /**< 摄像头reset接口链接的GPIO，注意：现在没有启用该参数 */
-    unsigned short pwdn_gpio;       /**< 摄像头power down接口链接的GPIO，注意：现在没有启用该参数 */
-    unsigned short power_gpio;      /**< 摄像头power 接口链接的GPIO，注意：现在没有启用该参数 */
-} IMPSensorInfo;
-
-#endif
-
-    printf("Sensor Info\n-------------\n");
-    printf("Name:%s\n",sensor_info.name);
-    printf(" IMPI2CInfo\n");
-    printf(" IMPI2CInfo.type:%s\n",sensor_info.i2c.type);
-    printf(" IMPI2CInfo.addr:0x%02X\n",sensor_info.i2c.addr);
-    printf(" IMPI2CInfo.i2c_adapter_id:%d\n",sensor_info.i2c.i2c_adapter_id);
-    printf(" IMPSPIInfo\n");
-    printf(" IMPSPIInfo.modalias:%s\n",sensor_info.spi.modalias);
-    printf(" IMPSPIInfo.bus_num:%d\n",sensor_info.spi.bus_num);
-    printf("rst_gpio:%u\n",sensor_info.rst_gpio);
-    printf("pwdn_gpio:%u\n",sensor_info.pwdn_gpio);
-    printf("power_gpio:%u\n",sensor_info.power_gpio);
-    printf("-------------\n");
-    
 
     ret = IMP_ISP_AddSensor(&sensor_info);
     if(ret < 0){
