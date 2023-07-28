@@ -1,3 +1,3 @@
 # capJPEG-openipc
 
-Quick and dirty libimp testing for catpure still images using openipc sdk.
+Quick and dirty libimp (T31 - ingenic) testing for catpure still images using openipc sdk.
